@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "293921789038",
+    "project_id": "rumi-ishi-expense-tracker",
+    "storage_bucket": "rumi-ishi-expense-tracker.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:293921789038:android:965859206737a9f4ccc27f",
+        "android_client_info": {
+          "package_name": "com.rumiishi.rumi_ishi_expense_tracker"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDOnav7zMxMjKdgw5wBAnc65_fAvmDYILE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

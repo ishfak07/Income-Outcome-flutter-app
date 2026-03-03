@@ -1,0 +1,81 @@
+// ============================================================
+// FIRESTORE SECURITY RULES - Rumi Ishi Expense Tracker
+// ============================================================
+// Deploy these rules in Firebase Console > Firestore Database > Rules
+// or via: firebase deploy --only firestore:rules
+// ============================================================
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── USER DOCUMENT RULES ────────────────────────────────────
+    // Each user can only read/write their own profile document.
+    // The document ID must match the authenticated user's UID.
+    match /users/{userId} {
+      
+      // Allow read only if the requesting user is the document owner
+      allow read: if request.auth != null && request.auth.uid == userId;
+      
+      // Allow create only if:
+      // 1. User is authenticated
+      // 2. Document ID matches their UID
+      // 3. Required fields are present
+      // 4. Email verification is marked true
+      allow create: if request.auth != null 
+        && request.auth.uid == userId
+        && request.resource.data.keys().hasAll(['fullName', 'email', 'phoneNumber', 'isEmailVerified', 'createdAt'])
+        && request.resource.data.isEmailVerified is bool
+        && request.resource.data.fullName is string
+        && request.resource.data.email is string
+        && request.resource.data.phoneNumber is string;
+      
+      // Allow update only if the user owns the document
+      // Phone number cannot be changed after creation
+      allow update: if request.auth != null 
+        && request.auth.uid == userId
+        && request.resource.data.phoneNumber == resource.data.phoneNumber;
+      
+      // Users cannot delete their own profile documents
+      allow delete: if false;
+
+      // ─── EXPENSE SUBCOLLECTION RULES ──────────────────────────
+      // Each user's expenses are in: users/{userId}/expenses/{expenseId}
+      // Users can only access their own expenses.
+      match /expenses/{expenseId} {
+        
+        // Allow read only for the document owner
+        allow read: if request.auth != null && request.auth.uid == userId;
+        
+        // Allow create if:
+        // 1. User is authenticated and is the document owner
+        // 2. The expense data contains the user's UID
+        // 3. Required fields are present
+        // 4. Amount is a positive number
+        allow create: if request.auth != null 
+          && request.auth.uid == userId
+          && request.resource.data.userId == userId
+          && request.resource.data.keys().hasAll(['userId', 'amount', 'category', 'description', 'date', 'time', 'createdAt'])
+          && request.resource.data.amount is number
+          && request.resource.data.amount > 0
+          && request.resource.data.category in ['Food', 'Transport', 'Bills', 'Shopping', 'Other'];
+        
+        // Allow update with same ownership validations
+        allow update: if request.auth != null 
+          && request.auth.uid == userId
+          && request.resource.data.userId == userId
+          && request.resource.data.amount is number
+          && request.resource.data.amount > 0;
+        
+        // Allow delete only for the document owner
+        allow delete: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+
+    // ─── DENY ALL OTHER ACCESS ────────────────────────────────
+    // No other collections or documents are accessible
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
