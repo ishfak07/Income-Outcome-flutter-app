@@ -58,7 +58,39 @@ service cloud.firestore {
           && request.resource.data.keys().hasAll(['userId', 'amount', 'category', 'description', 'date', 'time', 'createdAt'])
           && request.resource.data.amount is number
           && request.resource.data.amount > 0
-          && request.resource.data.category in ['Food', 'Transport', 'Bills', 'Shopping', 'Other'];
+          && request.resource.data.category in ['Food', 'Transport', 'Bills', 'Shopping', 'Entertainment', 'Health', 'Education', 'Travel', 'Groceries', 'Subscriptions', 'Other'];
+        
+        // Allow update with same ownership validations
+        allow update: if request.auth != null 
+          && request.auth.uid == userId
+          && request.resource.data.userId == userId
+          && request.resource.data.amount is number
+          && request.resource.data.amount > 0;
+        
+        // Allow delete only for the document owner
+        allow delete: if request.auth != null && request.auth.uid == userId;
+      }
+
+      // ─── INCOME SUBCOLLECTION RULES ───────────────────────────
+      // Each user's incomes are in: users/{userId}/incomes/{incomeId}
+      // Users can only access their own incomes.
+      match /incomes/{incomeId} {
+        
+        // Allow read only for the document owner
+        allow read: if request.auth != null && request.auth.uid == userId;
+        
+        // Allow create if:
+        // 1. User is authenticated and is the document owner
+        // 2. The income data contains the user's UID
+        // 3. Required fields are present
+        // 4. Amount is a positive number
+        allow create: if request.auth != null 
+          && request.auth.uid == userId
+          && request.resource.data.userId == userId
+          && request.resource.data.keys().hasAll(['userId', 'amount', 'category', 'description', 'date', 'time', 'createdAt'])
+          && request.resource.data.amount is number
+          && request.resource.data.amount > 0
+          && request.resource.data.category in ['Salary', 'Freelance', 'Investments', 'Rental Income', 'Business', 'Gifts', 'Refunds', 'Side Hustle', 'Dividends', 'Other'];
         
         // Allow update with same ownership validations
         allow update: if request.auth != null 

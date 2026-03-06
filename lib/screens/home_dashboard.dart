@@ -219,145 +219,251 @@ class _HomeDashboardState extends State<HomeDashboard> {
         final savingsRate =
             totalIncome > 0 ? ((netBalance / totalIncome) * 100) : 0.0;
 
+        final allTimeIncome = incomeProvider.totalIncomeAllTime;
+        final allTimeExpense = expenseProvider.totalAllTime;
+        final allTimeBalance = allTimeIncome - allTimeExpense;
+
         return Padding(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(20),
-              gradient: LinearGradient(
-                colors: isDark
-                    ? [const Color(0xFF1A1A2E), const Color(0xFF16213E)]
-                    : [
-                        AppTheme.primaryColor.withOpacity(0.08),
-                        AppTheme.accentPurple.withOpacity(0.05),
-                      ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              border: Border.all(
-                color: isDark
-                    ? Colors.white.withOpacity(0.08)
-                    : AppTheme.primaryColor.withOpacity(0.15),
-              ),
-            ),
-            child: Column(
-              children: [
-                Text(
-                  'Net Balance (This Month)',
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: isDark ? Colors.white54 : const Color(0xFF64748B),
+          child: Column(
+            children: [
+              // All-Time Cumulative Balance Card
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: LinearGradient(
+                    colors: isDark
+                        ? [const Color(0xFF0D1B2A), const Color(0xFF1B2838)]
+                        : [
+                            AppTheme.accentPurple.withOpacity(0.08),
+                            AppTheme.primaryColor.withOpacity(0.04),
+                          ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  border: Border.all(
+                    color: isDark
+                        ? Colors.white.withOpacity(0.06)
+                        : AppTheme.accentPurple.withOpacity(0.12),
                   ),
                 ),
-                const SizedBox(height: 6),
-                Text(
-                  '${netBalance >= 0 ? '+' : '-'}${context.read<CurrencyProvider>().currencySymbol}${netBalance.abs().toStringAsFixed(2)}',
-                  style: TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w800,
-                    color: netBalance >= 0
-                        ? AppTheme.accentGreen
-                        : Colors.redAccent,
-                  ),
-                ),
-                if (totalIncome > 0) ...[
-                  const SizedBox(height: 4),
-                  Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: (savingsRate >= 0
-                              ? AppTheme.accentGreen
-                              : Colors.redAccent)
-                          .withOpacity(0.15),
-                    ),
-                    child: Text(
-                      'Savings Rate: ${savingsRate.toStringAsFixed(1)}%',
+                child: Column(
+                  children: [
+                    Text(
+                      'All-Time Balance',
                       style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w600,
-                        color: savingsRate >= 0
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color:
+                            isDark ? Colors.white54 : const Color(0xFF64748B),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      '${allTimeBalance >= 0 ? '+' : '-'}${context.read<CurrencyProvider>().currencySymbol}${allTimeBalance.abs().toStringAsFixed(2)}',
+                      style: TextStyle(
+                        fontSize: 26,
+                        fontWeight: FontWeight.w800,
+                        color: allTimeBalance >= 0
                             ? AppTheme.accentGreen
                             : Colors.redAccent,
                       ),
                     ),
-                  ),
-                ],
-                const SizedBox(height: 16),
-                Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Row(
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(Icons.trending_up_rounded,
-                                  color: AppTheme.accentGreen, size: 16),
+                                  color: AppTheme.accentGreen, size: 14),
                               const SizedBox(width: 4),
-                              Text('Income',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: isDark
-                                          ? Colors.white54
-                                          : const Color(0xFF64748B))),
+                              Text(
+                                '${context.read<CurrencyProvider>().currencySymbol}${allTimeIncome.toStringAsFixed(2)}',
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppTheme.accentGreen,
+                                ),
+                              ),
                             ],
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            '${context.read<CurrencyProvider>().currencySymbol}${totalIncome.toStringAsFixed(2)}',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              color: AppTheme.accentGreen,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Container(
-                      height: 40,
-                      width: 1,
-                      color: isDark
-                          ? Colors.white.withOpacity(0.1)
-                          : const Color(0xFFE2E8F0),
-                    ),
-                    Expanded(
-                      child: Column(
-                        children: [
-                          Row(
+                        ),
+                        Container(
+                          height: 20,
+                          width: 1,
+                          color: isDark
+                              ? Colors.white.withOpacity(0.1)
+                              : const Color(0xFFE2E8F0),
+                        ),
+                        Expanded(
+                          child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Icon(Icons.trending_down_rounded,
-                                  color: AppTheme.accentPink, size: 16),
+                                  color: AppTheme.accentPink, size: 14),
                               const SizedBox(width: 4),
-                              Text('Expenses',
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color: isDark
-                                          ? Colors.white54
-                                          : const Color(0xFF64748B))),
+                              Text(
+                                '${context.read<CurrencyProvider>().currencySymbol}${allTimeExpense.toStringAsFixed(2)}',
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppTheme.accentPink,
+                                ),
+                              ),
                             ],
                           ),
-                          const SizedBox(height: 4),
-                          Text(
-                            '${context.read<CurrencyProvider>().currencySymbol}${totalExpense.toStringAsFixed(2)}',
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              color: AppTheme.accentPink,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+              const SizedBox(height: 10),
+              // This Month Card
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: LinearGradient(
+                    colors: isDark
+                        ? [const Color(0xFF1A1A2E), const Color(0xFF16213E)]
+                        : [
+                            AppTheme.primaryColor.withOpacity(0.08),
+                            AppTheme.accentPurple.withOpacity(0.05),
+                          ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  border: Border.all(
+                    color: isDark
+                        ? Colors.white.withOpacity(0.08)
+                        : AppTheme.primaryColor.withOpacity(0.15),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      'Net Balance (This Month)',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color:
+                            isDark ? Colors.white54 : const Color(0xFF64748B),
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(
+                      '${netBalance >= 0 ? '+' : '-'}${context.read<CurrencyProvider>().currencySymbol}${netBalance.abs().toStringAsFixed(2)}',
+                      style: TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w800,
+                        color: netBalance >= 0
+                            ? AppTheme.accentGreen
+                            : Colors.redAccent,
+                      ),
+                    ),
+                    if (totalIncome > 0) ...[
+                      const SizedBox(height: 4),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 12, vertical: 4),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: (savingsRate >= 0
+                                  ? AppTheme.accentGreen
+                                  : Colors.redAccent)
+                              .withOpacity(0.15),
+                        ),
+                        child: Text(
+                          'Savings Rate: ${savingsRate.toStringAsFixed(1)}%',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: savingsRate >= 0
+                                ? AppTheme.accentGreen
+                                : Colors.redAccent,
+                          ),
+                        ),
+                      ),
+                    ],
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.trending_up_rounded,
+                                      color: AppTheme.accentGreen, size: 16),
+                                  const SizedBox(width: 4),
+                                  Text('Income',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: isDark
+                                              ? Colors.white54
+                                              : const Color(0xFF64748B))),
+                                ],
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                '${context.read<CurrencyProvider>().currencySymbol}${totalIncome.toStringAsFixed(2)}',
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppTheme.accentGreen,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: 40,
+                          width: 1,
+                          color: isDark
+                              ? Colors.white.withOpacity(0.1)
+                              : const Color(0xFFE2E8F0),
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(Icons.trending_down_rounded,
+                                      color: AppTheme.accentPink, size: 16),
+                                  const SizedBox(width: 4),
+                                  Text('Expenses',
+                                      style: TextStyle(
+                                          fontSize: 12,
+                                          color: isDark
+                                              ? Colors.white54
+                                              : const Color(0xFF64748B))),
+                                ],
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                '${context.read<CurrencyProvider>().currencySymbol}${totalExpense.toStringAsFixed(2)}',
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppTheme.accentPink,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         )
             .animate()

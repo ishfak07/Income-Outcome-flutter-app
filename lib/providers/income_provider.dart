@@ -11,6 +11,7 @@ class IncomeProvider extends ChangeNotifier {
   List<IncomeModel> _incomes = [];
   double _totalIncomeToday = 0;
   double _totalIncomeThisMonth = 0;
+  double _totalIncomeAllTime = 0;
   double _totalIncomePreviousMonth = 0;
   Map<String, double> _incomeCategoryBreakdown = {};
   bool _isLoading = false;
@@ -22,6 +23,7 @@ class IncomeProvider extends ChangeNotifier {
   List<IncomeModel> get incomes => _incomes;
   double get totalIncomeToday => _totalIncomeToday;
   double get totalIncomeThisMonth => _totalIncomeThisMonth;
+  double get totalIncomeAllTime => _totalIncomeAllTime;
   double get totalIncomePreviousMonth => _totalIncomePreviousMonth;
   Map<String, double> get incomeCategoryBreakdown => _incomeCategoryBreakdown;
   bool get isLoading => _isLoading;
@@ -57,6 +59,8 @@ class IncomeProvider extends ChangeNotifier {
       _totalIncomeToday = await _incomeService.getTotalIncomeToday(userId);
       _totalIncomeThisMonth =
           await _incomeService.getTotalIncomeThisMonth(userId);
+      _totalIncomeAllTime =
+          await _incomeService.getTotalIncomeAllTime(userId);
       _totalIncomePreviousMonth =
           await _incomeService.getTotalIncomePreviousMonth(userId);
       _incomeCategoryBreakdown =
@@ -179,6 +183,7 @@ class IncomeProvider extends ChangeNotifier {
     _incomes = [];
     _totalIncomeToday = 0;
     _totalIncomeThisMonth = 0;
+    _totalIncomeAllTime = 0;
     _totalIncomePreviousMonth = 0;
     _incomeCategoryBreakdown = {};
     _error = null;

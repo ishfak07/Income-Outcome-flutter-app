@@ -140,6 +140,17 @@ class IncomeService {
     return incomes.fold<double>(0, (total, i) => total + i.amount);
   }
 
+  /// Calculate total income across all time.
+  Future<double> getTotalIncomeAllTime(String userId) async {
+    final snapshot = await _incomesRef(userId).get();
+    double total = 0;
+    for (final doc in snapshot.docs) {
+      final data = doc.data() as Map<String, dynamic>;
+      total += (data['amount'] as num?)?.toDouble() ?? 0;
+    }
+    return total;
+  }
+
   /// Calculate total income for previous month.
   Future<double> getTotalIncomePreviousMonth(String userId) async {
     final now = DateTime.now();

@@ -11,6 +11,7 @@ class ExpenseProvider extends ChangeNotifier {
   List<ExpenseModel> _expenses = [];
   double _totalToday = 0;
   double _totalThisMonth = 0;
+  double _totalAllTime = 0;
   Map<String, double> _categoryBreakdown = {};
   bool _isLoading = false;
   String? _error;
@@ -21,6 +22,7 @@ class ExpenseProvider extends ChangeNotifier {
   List<ExpenseModel> get expenses => _expenses;
   double get totalToday => _totalToday;
   double get totalThisMonth => _totalThisMonth;
+  double get totalAllTime => _totalAllTime;
   Map<String, double> get categoryBreakdown => _categoryBreakdown;
   bool get isLoading => _isLoading;
   String? get error => _error;
@@ -55,6 +57,7 @@ class ExpenseProvider extends ChangeNotifier {
     try {
       _totalToday = await _expenseService.getTotalSpentToday(userId);
       _totalThisMonth = await _expenseService.getTotalSpentThisMonth(userId);
+      _totalAllTime = await _expenseService.getTotalSpentAllTime(userId);
       _categoryBreakdown = await _expenseService.getCategoryBreakdown(userId);
       _error = null;
     } catch (e) {
@@ -140,6 +143,7 @@ class ExpenseProvider extends ChangeNotifier {
     _expenses = [];
     _totalToday = 0;
     _totalThisMonth = 0;
+    _totalAllTime = 0;
     _categoryBreakdown = {};
     _error = null;
     notifyListeners();

@@ -106,6 +106,17 @@ class ExpenseService {
     return expenses.fold<double>(0, (total, e) => total + e.amount);
   }
 
+  /// Calculate total spent across all time.
+  Future<double> getTotalSpentAllTime(String userId) async {
+    final snapshot = await _expensesRef(userId).get();
+    double total = 0;
+    for (final doc in snapshot.docs) {
+      final data = doc.data() as Map<String, dynamic>;
+      total += (data['amount'] as num?)?.toDouble() ?? 0;
+    }
+    return total;
+  }
+
   /// Get category-wise breakdown for current month.
   Future<Map<String, double>> getCategoryBreakdown(String userId) async {
     final now = DateTime.now();
