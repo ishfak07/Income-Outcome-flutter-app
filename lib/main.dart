@@ -22,6 +22,7 @@ import 'screens/expense_history_screen.dart';
 import 'screens/add_income_screen.dart';
 import 'screens/edit_income_screen.dart';
 import 'screens/income_history_screen.dart';
+import 'screens/transaction_history_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/edit_profile_screen.dart';
 import 'screens/statistics_screen.dart';
@@ -105,7 +106,7 @@ class RumiIshiApp extends StatelessWidget {
               AppConstants.homeRoute: (_) => const HomeDashboard(),
               AppConstants.addExpenseRoute: (_) => const AddExpenseScreen(),
               AppConstants.editExpenseRoute: (_) => const EditExpenseScreen(),
-              AppConstants.historyRoute: (_) => const ExpenseHistoryScreen(),
+              AppConstants.historyRoute: (_) => const TransactionHistoryScreen(),
               AppConstants.addIncomeRoute: (_) => const AddIncomeScreen(),
               AppConstants.editIncomeRoute: (_) => const EditIncomeScreen(),
               AppConstants.incomeHistoryRoute: (_) =>
@@ -140,7 +141,7 @@ class RumiIshiApp extends StatelessWidget {
                 AppConstants.homeRoute: const HomeDashboard(),
                 AppConstants.addExpenseRoute: const AddExpenseScreen(),
                 AppConstants.editExpenseRoute: const EditExpenseScreen(),
-                AppConstants.historyRoute: const ExpenseHistoryScreen(),
+                AppConstants.historyRoute: const TransactionHistoryScreen(),
                 AppConstants.addIncomeRoute: const AddIncomeScreen(),
                 AppConstants.editIncomeRoute: const EditIncomeScreen(),
                 AppConstants.incomeHistoryRoute: const IncomeHistoryScreen(),

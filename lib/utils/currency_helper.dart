@@ -22,13 +22,13 @@ class CurrencyInfo {
 class CurrencyHelper {
   CurrencyHelper._();
 
-  /// Default currency info (United States).
+  /// Default currency info (Sri Lanka).
   static const CurrencyInfo defaultCurrency = CurrencyInfo(
-    countryCode: 'US',
-    countryName: 'United States',
-    currencyCode: 'USD',
-    currencySymbol: '\$',
-    flag: '🇺🇸',
+    countryCode: 'LK',
+    countryName: 'Sri Lanka',
+    currencyCode: 'LKR',
+    currencySymbol: 'Rs',
+    flag: '🇱🇰',
   );
 
   /// Complete list of countries with their currencies.
