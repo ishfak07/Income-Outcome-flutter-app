@@ -106,7 +106,8 @@ class RumiIshiApp extends StatelessWidget {
               AppConstants.homeRoute: (_) => const HomeDashboard(),
               AppConstants.addExpenseRoute: (_) => const AddExpenseScreen(),
               AppConstants.editExpenseRoute: (_) => const EditExpenseScreen(),
-              AppConstants.historyRoute: (_) => const TransactionHistoryScreen(),
+              AppConstants.historyRoute: (_) =>
+                  const TransactionHistoryScreen(),
               AppConstants.addIncomeRoute: (_) => const AddIncomeScreen(),
               AppConstants.editIncomeRoute: (_) => const EditIncomeScreen(),
               AppConstants.incomeHistoryRoute: (_) =>

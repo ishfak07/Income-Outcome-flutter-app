@@ -37,7 +37,7 @@ class AppConstants {
   static const String savingsGoalsCollection = 'savings_goals';
 
   // Currency (Default: Sri Lankan Rupees)
-  static const String currencySymbol = 'Rs';
+  static const String currencySymbol = 'Rs ';
 
   // Animation durations
   static const Duration shortAnimation = Duration(milliseconds: 200);

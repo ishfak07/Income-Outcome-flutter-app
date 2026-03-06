@@ -47,12 +47,16 @@ class CurrencyProvider extends ChangeNotifier {
 
   /// Format an amount with the current currency symbol.
   String format(double amount, {int decimals = 2}) {
-    return '$currencySymbol${amount.toStringAsFixed(decimals)}';
+    // Add space if currency symbol doesn't already end with one
+    final separator = currencySymbol.endsWith(' ') ? '' : ' ';
+    return '$currencySymbol$separator${amount.toStringAsFixed(decimals)}';
   }
 
   /// Format with sign (+ or -).
   String formatSigned(double amount, {int decimals = 2}) {
     final sign = amount >= 0 ? '+' : '-';
-    return '$sign$currencySymbol${amount.abs().toStringAsFixed(decimals)}';
+    // Add space if currency symbol doesn't already end with one
+    final separator = currencySymbol.endsWith(' ') ? '' : ' ';
+    return '$sign$currencySymbol$separator${amount.abs().toStringAsFixed(decimals)}';
   }
 }

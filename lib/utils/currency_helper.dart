@@ -27,7 +27,7 @@ class CurrencyHelper {
     countryCode: 'LK',
     countryName: 'Sri Lanka',
     currencyCode: 'LKR',
-    currencySymbol: 'Rs',
+    currencySymbol: 'Rs ',
     flag: '🇱🇰',
   );
 
@@ -433,7 +433,7 @@ class CurrencyHelper {
         countryCode: 'LK',
         countryName: 'Sri Lanka',
         currencyCode: 'LKR',
-        currencySymbol: 'Rs',
+        currencySymbol: 'Rs ',
         flag: '🇱🇰'),
     CurrencyInfo(
         countryCode: 'SE',
