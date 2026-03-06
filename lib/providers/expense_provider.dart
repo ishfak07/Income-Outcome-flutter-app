@@ -45,7 +45,8 @@ class ExpenseProvider extends ChangeNotifier {
   void listenToExpenses(String userId) {
     // Cancel previous subscription to prevent memory leaks
     _expenseSubscription?.cancel();
-    _expenseSubscription = _expenseService.getExpenses(userId).listen((expenses) {
+    _expenseSubscription =
+        _expenseService.getExpenses(userId).listen((expenses) {
       _expenses = expenses;
       notifyListeners();
     });

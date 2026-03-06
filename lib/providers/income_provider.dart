@@ -59,8 +59,7 @@ class IncomeProvider extends ChangeNotifier {
       _totalIncomeToday = await _incomeService.getTotalIncomeToday(userId);
       _totalIncomeThisMonth =
           await _incomeService.getTotalIncomeThisMonth(userId);
-      _totalIncomeAllTime =
-          await _incomeService.getTotalIncomeAllTime(userId);
+      _totalIncomeAllTime = await _incomeService.getTotalIncomeAllTime(userId);
       _totalIncomePreviousMonth =
           await _incomeService.getTotalIncomePreviousMonth(userId);
       _incomeCategoryBreakdown =
