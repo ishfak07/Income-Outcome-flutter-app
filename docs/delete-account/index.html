@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Request permanent deletion of your Pocketly account and associated data.">
+  <title>Pocketly — Account Deletion Request</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:#f6f8fc;color:#172033;line-height:1.6}
+    .wrap{width:min(880px,calc(100% - 28px));margin:auto;padding:42px 0 64px}.brand{display:flex;align-items:center;gap:12px;margin-bottom:24px}.logo{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:linear-gradient(135deg,#5b5ce2,#7b4ce2);color:#fff;font-size:22px;font-weight:800}.brand b{font-size:22px}.muted{color:#6b768b}
+    .card{background:#fff;border:1px solid #e5eaf2;border-radius:24px;box-shadow:0 18px 55px rgba(30,45,75,.09);overflow:hidden}.hero{padding:34px 34px 28px;background:linear-gradient(135deg,#f7f7ff,#fff)}.eyebrow{font-size:12px;letter-spacing:.12em;font-weight:800;color:#c33b48;text-transform:uppercase}h1{font-size:clamp(30px,5vw,46px);line-height:1.08;margin:9px 0 12px}.lead{font-size:18px;margin:0;color:#647084}.content{padding:30px 34px 36px}h2{font-size:21px;margin:30px 0 9px}h2:first-child{margin-top:0}.steps{counter-reset:s;display:grid;gap:11px}.step{position:relative;padding:15px 15px 15px 52px;border:1px solid #e5eaf2;border-radius:14px;background:#fbfcff}.step:before{counter-increment:s;content:counter(s);position:absolute;left:14px;top:13px;width:27px;height:27px;display:grid;place-items:center;border-radius:50%;background:#ececff;color:#5657dc;font-weight:800}.warning{padding:16px;border-radius:14px;background:#fff5f5;border:1px solid #efc8cc;color:#74333a;margin:22px 0}.btn{display:inline-block;padding:13px 18px;border-radius:12px;background:linear-gradient(135deg,#5b5ce2,#7b4ce2);color:#fff;text-decoration:none;font-weight:800;margin:5px 0}.small{font-size:13px;color:#6b768b}.publisher{margin-top:28px;padding:14px;border-radius:12px;background:#fff9df;border:1px solid #ecdfa8}footer{text-align:center;color:#7a8496;font-size:13px;margin-top:22px}@media(max-width:600px){.wrap{padding-top:22px}.hero,.content{padding:24px 20px}.btn{display:block;text-align:center}}
+  </style>
+</head>
+<body>
+<main class="wrap">
+  <div class="brand"><div class="logo">P</div><div><b>Pocketly</b><div class="small">Personal finance tracker</div></div></div>
+  <article class="card">
+    <section class="hero">
+      <div class="eyebrow">Account &amp; Data Deletion</div>
+      <h1>Request deletion of your Pocketly account</h1>
+      <p class="lead">Use this page to request permanent deletion of your Pocketly account and the data associated with it.</p>
+    </section>
+    <section class="content">
+      <h2>How to request deletion</h2>
+      <div class="steps">
+        <div class="step">Send a deletion request using the button below, preferably from the email address registered with Pocketly.</div>
+        <div class="step">State clearly that you want your Pocketly account and associated data permanently deleted.</div>
+        <div class="step">Pocketly may ask you to verify ownership of the account before processing the deletion.</div>
+        <div class="step">After verification, the account and associated Pocketly data covered by the request will be deleted, except information that must legitimately be retained.</div>
+      </div>
+
+      <div class="warning"><strong>Do not send your password, PIN, bank details, or full transaction history.</strong> They are not needed to request account deletion.</div>
+
+      <a id="request" class="btn" href="#">Request account deletion by email</a>
+      <p id="email-note" class="small">The publisher must configure the support email before this page is used in production.</p>
+
+      <h2>Data covered by the deletion request</h2>
+      <ul>
+        <li>Firebase Authentication account;</li>
+        <li>Pocketly user profile information;</li>
+        <li>income and expense records associated with the account;</li>
+        <li>monthly budget and other account-associated finance data;</li>
+        <li>uploaded profile photo, if one exists;</li>
+        <li>other Pocketly data directly associated with the deleted account.</li>
+      </ul>
+
+      <h2>Retention</h2>
+      <p>If specific information must be retained for a legitimate legal, security, fraud-prevention, or regulatory reason, only the information required for that purpose should be retained for the applicable period and described in Pocketly's Privacy Policy.</p>
+
+      <h2>Deletion is permanent</h2>
+      <p>After deletion has been completed, deleted account information normally cannot be restored. Temporarily disabling or freezing an account is not treated as account deletion.</p>
+
+      <div class="publisher"><strong>Publisher action before release:</strong> replace <code>REPLACE_WITH_SUPPORT_EMAIL</code> in this file with a real monitored support inbox, publish this page over HTTPS, and actually process verified requests in Firebase Authentication, Firestore, and Storage.</div>
+    </section>
+  </article>
+  <footer>Pocketly — Account Deletion Request</footer>
+</main>
+<script>
+  const supportEmail = 'REPLACE_WITH_SUPPORT_EMAIL';
+  const link = document.getElementById('request');
+  const note = document.getElementById('email-note');
+  const subject = 'Pocketly account deletion request';
+  const body = `Hello Pocketly Support,\n\nI am requesting permanent deletion of my Pocketly account and the data associated with it.\n\nRegistered Pocketly email: [enter your registered email]\n\nI understand that I may be asked to verify ownership of the account.\n\nPlease do not ask me to send my password, PIN, or financial records.`;
+  if (supportEmail.startsWith('REPLACE_')) {
+    link.addEventListener('click', function(e){e.preventDefault();alert('Pocketly support email must be configured before production.');});
+  } else {
+    link.href='mailto:'+encodeURIComponent(supportEmail)+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+    note.textContent='Deletion requests: '+supportEmail;
+  }
+</script>
+</body>
+</html>

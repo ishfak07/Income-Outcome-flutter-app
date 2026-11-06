@@ -8,6 +8,7 @@ import '../utils/app_theme.dart';
 import '../utils/constants.dart';
 import '../utils/currency_helper.dart';
 import '../widgets/glass_card.dart';
+import 'account_deletion_request_screen.dart';
 
 /// SettingsScreen - App settings including theme, currency, password change, and about.
 class SettingsScreen extends StatelessWidget {
@@ -110,6 +111,20 @@ class SettingsScreen extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               _SettingsTile(
+                icon: Icons.delete_forever_rounded,
+                title: 'Delete Account',
+                subtitle: 'Request permanent account & data deletion',
+                color: Colors.red,
+                isDark: isDark,
+                onTap: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const AccountDeletionRequestScreen(),
+                  ),
+                ),
+                index: 4,
+              ),
+              const SizedBox(height: 8),
+              _SettingsTile(
                 icon: Icons.account_balance_wallet_rounded,
                 title: 'Budget',
                 subtitle: 'Set monthly spending limit',
@@ -117,7 +132,7 @@ class SettingsScreen extends StatelessWidget {
                 isDark: isDark,
                 onTap: () =>
                     Navigator.pushNamed(context, AppConstants.budgetRoute),
-                index: 4,
+                index: 5,
               ),
               const SizedBox(height: 24),
 
