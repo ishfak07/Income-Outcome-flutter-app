@@ -40,7 +40,7 @@ import 'screens/financial_health_screen.dart';
 bool firebaseInitialized = false;
 String? firebaseError;
 
-/// Entry point for Rumi Ishi Expense Tracker.
+/// Entry point for Pocketly.
 /// Initializes Firebase, theme, and sets up providers.
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -69,11 +69,11 @@ void main() async {
     statusBarIconBrightness: Brightness.light,
   ));
 
-  runApp(const RumiIshiApp());
+  runApp(const PocketlyApp());
 }
 
-class RumiIshiApp extends StatelessWidget {
-  const RumiIshiApp({super.key});
+class PocketlyApp extends StatelessWidget {
+  const PocketlyApp({super.key});
 
   @override
   Widget build(BuildContext context) {

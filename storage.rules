@@ -1,5 +1,5 @@
 // ============================================================
-// FIREBASE STORAGE SECURITY RULES - Rumi Ishi Expense Tracker
+// FIREBASE STORAGE SECURITY RULES - Pocketly
 // ============================================================
 // Deploy: firebase deploy --only storage
 // ============================================================

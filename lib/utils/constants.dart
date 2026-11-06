@@ -1,7 +1,7 @@
-/// App-wide constants for Rumi Ishi Expense Tracker.
+/// App-wide constants for Pocketly.
 class AppConstants {
-  static const String appName = 'Rumi Ishi';
-  static const String appFullName = 'Rumi Ishi Expense Tracker';
+  static const String appName = 'Pocketly';
+  static const String appFullName = 'Pocketly';
   static const String appTagline = 'Track your expenses, simplify your life';
 
   // Route names

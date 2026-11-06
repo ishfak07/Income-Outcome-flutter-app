@@ -54,7 +54,7 @@ class LocalAuthService {
   static Future<bool> authenticateWithBiometric() async {
     try {
       return await _localAuth.authenticate(
-        localizedReason: 'Authenticate to access Rumi Ishi',
+        localizedReason: 'Authenticate to access Pocketly',
         options: const AuthenticationOptions(
           stickyAuth: true,
           biometricOnly: true,

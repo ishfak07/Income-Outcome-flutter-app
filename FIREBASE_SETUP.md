@@ -1,4 +1,4 @@
-# 🔥 Firebase Setup Guide - Rumi Ishi Expense Tracker
+# 🔥 Firebase Setup Guide - Pocketly
 
 ## Prerequisites
 - Flutter SDK (latest stable)
@@ -19,7 +19,7 @@
 
 1. In Firebase Console → **Project Settings** → **Add App** → **Android**.
 2. Enter package name: `com.rumiishi.rumi_ishi_expense_tracker`
-3. Enter app nickname: `Rumi Ishi Expense Tracker`
+3. Enter app nickname: `Pocketly`
 4. Download `google-services.json`.
 5. Place it in: `android/app/google-services.json`.
 

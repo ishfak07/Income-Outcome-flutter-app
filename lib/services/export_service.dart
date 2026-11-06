@@ -30,7 +30,7 @@ class ExportService {
 
     await Share.shareXFiles(
       [XFile(file.path)],
-      text: 'My Expenses - Rumi Ishi Expense Tracker',
+      text: 'My Expenses - Pocketly',
     );
   }
 
@@ -49,7 +49,7 @@ class ExportService {
           pw.Header(
             level: 0,
             child: pw.Text(
-              'Rumi Ishi Expense Tracker',
+              'Pocketly',
               style: pw.TextStyle(
                 fontSize: 24,
                 fontWeight: pw.FontWeight.bold,
@@ -103,7 +103,7 @@ class ExportService {
 
     await Share.shareXFiles(
       [XFile(file.path)],
-      text: 'My Expenses - Rumi Ishi Expense Tracker',
+      text: 'My Expenses - Pocketly',
     );
   }
 }

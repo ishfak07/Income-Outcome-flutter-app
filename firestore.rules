@@ -1,5 +1,5 @@
 // ============================================================
-// FIRESTORE SECURITY RULES - Rumi Ishi Expense Tracker
+// FIRESTORE SECURITY RULES - Pocketly
 // ============================================================
 // Deploy these rules in Firebase Console > Firestore Database > Rules
 // or via: firebase deploy --only firestore:rules

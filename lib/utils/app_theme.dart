@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-/// App theme configuration for Rumi Ishi Expense Tracker.
+/// App theme configuration for Pocketly.
 /// Modern glassmorphism-inspired design with soft-neon accents.
 class AppTheme {
   // ─── COLORS ──────────────────────────────────────────────────────────

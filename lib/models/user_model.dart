@@ -1,4 +1,4 @@
-/// User model for Rumi Ishi Expense Tracker.
+/// User model for Pocketly.
 /// Represents a registered user with verified email.
 class UserModel {
   final String uid;

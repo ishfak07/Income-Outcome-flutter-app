@@ -93,7 +93,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ).animate().fadeIn(duration: 400.ms).slideX(begin: -0.1),
                   const SizedBox(height: 8),
                   Text(
-                    'Join Rumi Ishi to track your expenses',
+                    'Join Pocketly to track your expenses',
                     style: TextStyle(
                       fontSize: 14,
                       color: isDark

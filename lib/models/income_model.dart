@@ -1,4 +1,4 @@
-/// Income model for Rumi Ishi Expense Tracker.
+/// Income model for Pocketly.
 /// Represents a single income entry linked to a user.
 class IncomeModel {
   final String id;

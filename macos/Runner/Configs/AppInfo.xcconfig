@@ -5,7 +5,7 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = rumi_ishi_expense_tracker
+PRODUCT_NAME = Pocketly
 
 // The application's bundle identifier
 PRODUCT_BUNDLE_IDENTIFIER = com.rumiishi.rumiIshiExpenseTracker

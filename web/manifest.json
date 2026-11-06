@@ -1,6 +1,6 @@
 {
-    "name": "rumi_ishi_expense_tracker",
-    "short_name": "rumi_ishi_expense_tracker",
+    "name": "Pocketly",
+    "short_name": "Pocketly",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

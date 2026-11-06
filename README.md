@@ -1,4 +1,4 @@
-# rumi_ishi_expense_tracker
+# Pocketly
 
 A new Flutter project.
 

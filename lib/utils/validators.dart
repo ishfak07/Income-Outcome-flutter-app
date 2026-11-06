@@ -1,4 +1,4 @@
-/// Input validators for Rumi Ishi Expense Tracker.
+/// Input validators for Pocketly.
 /// Provides form validation for auth and expense forms.
 class Validators {
   /// Validate full name (at least 2 characters).

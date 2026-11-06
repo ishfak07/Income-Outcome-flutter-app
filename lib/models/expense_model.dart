@@ -1,4 +1,4 @@
-/// Expense model for Rumi Ishi Expense Tracker.
+/// Expense model for Pocketly.
 /// Represents a single expense entry linked to a user.
 class ExpenseModel {
   final String id;
