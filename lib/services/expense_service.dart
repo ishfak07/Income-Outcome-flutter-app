@@ -4,7 +4,7 @@ import '../models/expense_model.dart';
 /// ExpenseService handles all Firestore CRUD operations for expenses.
 /// Each user's expenses are stored in a subcollection: users/{uid}/expenses
 class ExpenseService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  FirebaseFirestore get _firestore => FirebaseFirestore.instance;
 
   /// Reference to a user's expenses collection.
   CollectionReference _expensesRef(String userId) {

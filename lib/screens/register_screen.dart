@@ -42,27 +42,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final authProvider = context.read<AuthProvider>();
     authProvider.clearError();
 
-    // Check phone uniqueness first
-    try {
-      final phoneExists =
-          await authProvider.isPhoneRegistered(_phoneController.text.trim());
-      if (phoneExists) {
-        authProvider.clearError();
-        if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('This phone number is already registered.'),
-              backgroundColor: Colors.red,
-            ),
-          );
-        }
-        return;
-      }
-    } catch (e) {
-      // Firestore might not be set up yet - proceed anyway
-      debugPrint('Phone check failed: $e');
-    }
-
     // Navigate to email verification screen
     if (mounted) {
       Navigator.of(context).pushNamed(

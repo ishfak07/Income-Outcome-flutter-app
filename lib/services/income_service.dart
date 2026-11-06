@@ -4,7 +4,7 @@ import '../models/income_model.dart';
 /// IncomeService handles all Firestore CRUD operations for incomes.
 /// Each user's incomes are stored in a subcollection: users/{uid}/incomes
 class IncomeService {
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  FirebaseFirestore get _firestore => FirebaseFirestore.instance;
 
   /// Reference to a user's incomes collection.
   CollectionReference _incomesRef(String userId) {

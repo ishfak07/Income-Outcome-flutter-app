@@ -8,9 +8,11 @@ import '../models/user_model.dart';
 /// AuthService handles all Firebase Authentication operations.
 /// Includes email verification, email/password auth, and user profile management.
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseStorage _storage = FirebaseStorage.instance;
+  // Keep Firebase access lazy so a setup error can be shown instead of
+  // crashing while the app's providers are being constructed.
+  FirebaseAuth get _auth => FirebaseAuth.instance;
+  FirebaseFirestore get _firestore => FirebaseFirestore.instance;
+  FirebaseStorage get _storage => FirebaseStorage.instance;
 
   /// Get current Firebase user.
   User? get currentUser => _auth.currentUser;
@@ -23,45 +25,71 @@ class AuthService {
 
   // ─── UNIQUENESS CHECKS ───────────────────────────────────────────────
 
-  /// Check if a phone number is already registered.
-  Future<bool> isPhoneNumberRegistered(String phoneNumber) async {
-    final query = await _firestore
-        .collection('users')
-        .where('phoneNumber', isEqualTo: phoneNumber)
-        .limit(1)
-        .get();
-    return query.docs.isNotEmpty;
-  }
-
-  /// Check if an email is already registered in Firestore.
-  Future<bool> isEmailRegistered(String email) async {
-    final query = await _firestore
-        .collection('users')
-        .where('email', isEqualTo: email.trim())
-        .limit(1)
-        .get();
-    return query.docs.isNotEmpty;
-  }
-
   // ─── EMAIL VERIFICATION ──────────────────────────────────────────────
 
-  /// Register user with email/password and send verification email.
+  /// Register user with email/password, create Firestore profile, and send verification email.
   Future<UserCredential> registerAndSendEmailVerification({
     required String email,
     required String password,
+    required String fullName,
+    required String phoneNumber,
   }) async {
+    User? createdUser;
     try {
       final userCredential = await _auth.createUserWithEmailAndPassword(
-        email: email.trim(),
+        email: email.trim().toLowerCase(),
         password: password,
       );
+      createdUser = userCredential.user;
+      if (createdUser == null) {
+        throw const AuthServiceException('Account creation failed.');
+      }
 
-      // Send verification email
-      await userCredential.user?.sendEmailVerification();
+      // Send first, so a mail failure does not leave a profile document.
+      await createdUser.sendEmailVerification();
+
+      final userModel = UserModel(
+        uid: createdUser.uid,
+        fullName: fullName.trim(),
+        email: email.trim().toLowerCase(),
+        phoneNumber: phoneNumber.trim(),
+        isEmailVerified: false,
+        createdAt: DateTime.now(),
+      );
+      await _firestore
+          .collection('users')
+          .doc(createdUser.uid)
+          .set(userModel.toMap());
 
       return userCredential;
     } on FirebaseAuthException catch (e) {
+      await _rollbackRegistration(createdUser);
       throw _handleAuthException(e);
+    } catch (e) {
+      await _rollbackRegistration(createdUser);
+      if (e is AuthServiceException) rethrow;
+      if (e is FirebaseException) {
+        throw AuthServiceException(
+          'Could not create your profile (${e.code}). Please try again.',
+        );
+      }
+      throw const AuthServiceException(
+        'Could not finish account creation. Please try again.',
+      );
+    }
+  }
+
+  Future<void> _rollbackRegistration(User? user) async {
+    if (user == null) return;
+    try {
+      await _firestore.collection('users').doc(user.uid).delete();
+    } catch (_) {
+      // The profile may not have been created yet.
+    }
+    try {
+      await user.delete();
+    } catch (_) {
+      // Preserve the original registration error.
     }
   }
 
@@ -82,7 +110,12 @@ class AuthService {
   Future<bool> checkEmailVerified() async {
     try {
       await _auth.currentUser?.reload();
-      return _auth.currentUser?.emailVerified ?? false;
+      final user = _auth.currentUser;
+      final verified = user?.emailVerified ?? false;
+      if (verified) {
+        await user!.getIdToken(true);
+      }
+      return verified;
     } catch (e) {
       return false;
     }
@@ -90,27 +123,48 @@ class AuthService {
 
   // ─── COMPLETE REGISTRATION ───────────────────────────────────────────
 
-  /// Save user profile to Firestore after email verification.
+  /// Update user profile to mark email as verified.
   Future<UserModel> completeRegistration({
     required String fullName,
     required String email,
     required String phoneNumber,
   }) async {
     final user = _auth.currentUser;
-    if (user == null) throw Exception('No authenticated user found.');
+    if (user == null) {
+      throw const AuthServiceException('No authenticated user found.');
+    }
+    await user.reload();
+    final refreshedUser = _auth.currentUser;
+    if (refreshedUser == null || !refreshedUser.emailVerified) {
+      throw const AuthServiceException(
+        'Email not verified yet. Please open the verification link first.',
+      );
+    }
+    // Refresh token claims so Firestore rules see email_verified == true.
+    await refreshedUser.getIdToken(true);
 
-    final userModel = UserModel(
-      uid: user.uid,
+    final fallbackProfile = UserModel(
+      uid: refreshedUser.uid,
       fullName: fullName.trim(),
-      email: email.trim(),
-      phoneNumber: phoneNumber,
+      email: email.trim().toLowerCase(),
+      phoneNumber: phoneNumber.trim(),
       isEmailVerified: true,
       createdAt: DateTime.now(),
     );
 
-    await _firestore.collection('users').doc(user.uid).set(userModel.toMap());
+    final profileRef = _firestore.collection('users').doc(refreshedUser.uid);
+    final profileSnapshot = await profileRef.get();
+    if (profileSnapshot.exists && profileSnapshot.data() != null) {
+      await profileRef.update({'isEmailVerified': true});
+      return UserModel.fromMap(
+        profileSnapshot.data()!,
+        refreshedUser.uid,
+      ).copyWith(isEmailVerified: true);
+    }
 
-    return userModel;
+    // Recover an older partial account that has Auth but no profile document.
+    await profileRef.set(fallbackProfile.toMap());
+    return fallbackProfile;
   }
 
   // ─── LOGIN ───────────────────────────────────────────────────────────
@@ -123,20 +177,42 @@ class AuthService {
     try {
       // Sign in with email and password
       final userCredential = await _auth.signInWithEmailAndPassword(
-        email: email.trim(),
+        email: email.trim().toLowerCase(),
         password: password,
       );
 
-      final user = userCredential.user;
-      if (user == null) throw Exception('Login failed.');
+      await userCredential.user?.reload();
+      final user = _auth.currentUser;
+      if (user == null) {
+        throw const AuthServiceException('Login failed.');
+      }
+      if (!user.emailVerified) {
+        try {
+          await user.sendEmailVerification();
+        } finally {
+          await _auth.signOut();
+        }
+        throw const AuthServiceException(
+          'Please verify your email before logging in. A new verification email was sent.',
+        );
+      }
+      await user.getIdToken(true);
 
       // Fetch user profile from Firestore
       final doc = await _firestore.collection('users').doc(user.uid).get();
       if (!doc.exists || doc.data() == null) {
-        throw Exception('User profile not found.');
+        await _auth.signOut();
+        throw const AuthServiceException(
+          'Your account profile is missing. Please contact support or register again.',
+        );
       }
 
-      return UserModel.fromMap(doc.data()!, user.uid);
+      var profile = UserModel.fromMap(doc.data()!, user.uid);
+      if (!profile.isEmailVerified) {
+        await doc.reference.update({'isEmailVerified': true});
+        profile = profile.copyWith(isEmailVerified: true);
+      }
+      return profile;
     } on FirebaseAuthException catch (e) {
       throw _handleAuthException(e);
     }
@@ -159,8 +235,10 @@ class AuthService {
   /// Upload profile photo to Firebase Storage and return download URL.
   Future<String> uploadProfilePhoto(String uid, File imageFile) async {
     try {
-      debugPrint('📸 Storage: Starting upload for uid=$uid, file=${imageFile.path}');
-      debugPrint('📸 Storage: File exists=${imageFile.existsSync()}, size=${imageFile.lengthSync()} bytes');
+      debugPrint(
+          '📸 Storage: Starting upload for uid=$uid, file=${imageFile.path}');
+      debugPrint(
+          '📸 Storage: File exists=${imageFile.existsSync()}, size=${imageFile.lengthSync()} bytes');
 
       final ref = _storage.ref().child('profile_photos').child('$uid.jpg');
       final uploadTask = await ref.putFile(
@@ -172,7 +250,8 @@ class AuthService {
       debugPrint('📸 Storage: Upload complete. Download URL: $url');
       return url;
     } on FirebaseException catch (e) {
-      debugPrint('📸 Storage FirebaseException: code=${e.code}, message=${e.message}');
+      debugPrint(
+          '📸 Storage FirebaseException: code=${e.code}, message=${e.message}');
       rethrow;
     } catch (e) {
       debugPrint('📸 Storage unexpected error: $e');
@@ -229,8 +308,15 @@ class AuthService {
 
   /// Delete the current user if they didn't complete verification.
   Future<void> deleteCurrentUser() async {
+    final user = _auth.currentUser;
+    if (user == null) return;
     try {
-      await _auth.currentUser?.delete();
+      await _firestore.collection('users').doc(user.uid).delete();
+    } catch (_) {
+      // The profile may not exist.
+    }
+    try {
+      await user.delete();
     } catch (_) {
       // User may already be deleted or session expired
     }
@@ -261,4 +347,14 @@ class AuthService {
         return e.message ?? 'Authentication failed. Please try again.';
     }
   }
+}
+
+/// A user-facing authentication failure without Dart's `Exception:` prefix.
+class AuthServiceException implements Exception {
+  final String message;
+
+  const AuthServiceException(this.message);
+
+  @override
+  String toString() => message;
 }

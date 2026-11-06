@@ -59,19 +59,42 @@ class AuthProvider extends ChangeNotifier {
 
   /// Check if user is already logged in and load profile.
   Future<void> initialize() async {
-    final firebaseUser = _authService.currentUser;
-    if (firebaseUser != null) {
+    try {
+      final firebaseUser = _authService.currentUser;
+      if (firebaseUser == null) {
+        _user = null;
+        return;
+      }
+
+      final verified = await _authService.checkEmailVerified();
+      if (!verified) {
+        await _authService.signOut();
+        _user = null;
+        return;
+      }
+
       _user = await _authService.getUserProfile(firebaseUser.uid);
+      if (_user != null && !_user!.isEmailVerified) {
+        await _authService.updateUserFields(
+          firebaseUser.uid,
+          {'isEmailVerified': true},
+        );
+        _user = _user!.copyWith(isEmailVerified: true);
+      }
+    } catch (e) {
+      try {
+        await _authService.signOut();
+      } catch (_) {
+        // Keep the original initialization error.
+      }
+      _user = null;
+      _error = e.toString();
+    } finally {
       notifyListeners();
     }
   }
 
   // ─── PHONE UNIQUENESS CHECK ──────────────────────────────────────────
-
-  /// Check if phone number is already taken.
-  Future<bool> isPhoneRegistered(String phoneNumber) async {
-    return await _authService.isPhoneNumberRegistered(phoneNumber);
-  }
 
   // ─── EMAIL VERIFICATION ──────────────────────────────────────────────
 
@@ -87,22 +110,15 @@ class AuthProvider extends ChangeNotifier {
     _setError(null);
 
     try {
-      // Check phone uniqueness
-      final phoneExists =
-          await _authService.isPhoneNumberRegistered(phoneNumber);
-      if (phoneExists) {
-        _setError('This phone number is already registered.');
-        _setLoading(false);
-        return false;
-      }
-
-      // Register with email/password and send verification email
+      // Register with email/password, create Firestore profile, and send verification email
       await _authService.registerAndSendEmailVerification(
         email: email,
         password: password,
+        fullName: fullName,
+        phoneNumber: phoneNumber,
       );
 
-      // Store pending registration data
+      // Store pending registration data for completion
       _pendingFullName = fullName;
       _pendingEmail = email;
       _pendingPhoneNumber = phoneNumber;

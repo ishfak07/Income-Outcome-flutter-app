@@ -21,23 +21,26 @@ service cloud.firestore {
       // 1. User is authenticated
       // 2. Document ID matches their UID
       // 3. Required fields are present
-      // 4. Email verification is marked true
+      // Note: Email verification can be false on creation, will be updated after verification
       allow create: if request.auth != null 
         && request.auth.uid == userId
         && request.resource.data.keys().hasAll(['fullName', 'email', 'phoneNumber', 'isEmailVerified', 'createdAt'])
         && request.resource.data.isEmailVerified is bool
+        && request.resource.data.isEmailVerified == request.auth.token.email_verified
         && request.resource.data.fullName is string
         && request.resource.data.email is string
+        && request.resource.data.email == request.auth.token.email
         && request.resource.data.phoneNumber is string;
       
-      // Allow update only if the user owns the document
-      // Phone number cannot be changed after creation
+      // Allow updates to profile fields while protecting account identity.
       allow update: if request.auth != null 
         && request.auth.uid == userId
-        && request.resource.data.phoneNumber == resource.data.phoneNumber;
+        && request.resource.data.email == resource.data.email
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.isEmailVerified == request.auth.token.email_verified;
       
-      // Users cannot delete their own profile documents
-      allow delete: if false;
+      // Needed to roll back a registration if profile setup fails.
+      allow delete: if request.auth != null && request.auth.uid == userId;
 
       // ─── EXPENSE SUBCOLLECTION RULES ──────────────────────────
       // Each user's expenses are in: users/{userId}/expenses/{expenseId}
