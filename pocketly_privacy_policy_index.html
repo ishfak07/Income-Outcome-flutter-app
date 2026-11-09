@@ -1,0 +1,770 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Privacy Policy for Pocketly, a personal finance tracking application published by IR TECH.">
+  <meta name="robots" content="index,follow">
+  <title>Pocketly Privacy Policy</title>
+
+  <style>
+    :root {
+      --bg: #f6f8fc;
+      --card: #ffffff;
+      --text: #172033;
+      --muted: #68758a;
+      --line: #e4e9f2;
+      --primary: #5b5ce2;
+      --primary-2: #7b4ce2;
+      --soft: #f2f3ff;
+      --warning: #fff8df;
+      --warning-border: #eadb9c;
+      --shadow: 0 18px 55px rgba(30, 45, 75, 0.09);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family:
+        Inter,
+        system-ui,
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        sans-serif;
+      background:
+        linear-gradient(180deg, #eef0ff 0, #f6f8fc 360px, #f6f8fc 100%);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    a {
+      color: var(--primary);
+      text-underline-offset: 3px;
+    }
+
+    a:hover {
+      opacity: 0.88;
+    }
+
+    .page {
+      width: min(980px, calc(100% - 28px));
+      margin: 0 auto;
+      padding: 42px 0 64px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .logo {
+      width: 50px;
+      height: 50px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      color: #ffffff;
+      font-size: 23px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      box-shadow: 0 10px 28px rgba(91, 92, 226, 0.22);
+    }
+
+    .brand-name {
+      font-size: 22px;
+      font-weight: 800;
+    }
+
+    .brand-subtitle {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .hero {
+      padding: 38px 38px 30px;
+      background:
+        radial-gradient(circle at top right, rgba(123, 76, 226, 0.10), transparent 34%),
+        linear-gradient(135deg, #f8f8ff, #ffffff);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .eyebrow {
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    h1 {
+      margin: 8px 0 12px;
+      font-size: clamp(34px, 6vw, 52px);
+      line-height: 1.08;
+    }
+
+    .hero p {
+      margin: 0;
+      max-width: 760px;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 18px;
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .content {
+      padding: 34px 38px 40px;
+    }
+
+    .summary {
+      background: var(--soft);
+      border: 1px solid #dedfff;
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 30px;
+    }
+
+    .summary strong {
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .toc {
+      background: #fbfcff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 32px;
+    }
+
+    .toc h2 {
+      margin-top: 0;
+    }
+
+    .toc ol {
+      margin-bottom: 0;
+      columns: 2;
+      column-gap: 36px;
+    }
+
+    section {
+      scroll-margin-top: 24px;
+    }
+
+    h2 {
+      margin: 34px 0 10px;
+      font-size: 23px;
+      line-height: 1.3;
+    }
+
+    h3 {
+      margin: 22px 0 8px;
+      font-size: 17px;
+    }
+
+    p {
+      margin: 10px 0;
+      color: #354052;
+    }
+
+    ul {
+      margin: 10px 0 10px 20px;
+      padding: 0;
+      color: #354052;
+    }
+
+    li {
+      margin: 7px 0;
+    }
+
+    .table-wrap {
+      overflow-x: auto;
+      margin: 16px 0 6px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 700px;
+      border-collapse: collapse;
+      background: #ffffff;
+    }
+
+    th,
+    td {
+      padding: 14px 16px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--line);
+    }
+
+    th {
+      background: #f8f9fd;
+      font-size: 13px;
+      color: #445067;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .notice {
+      margin: 20px 0;
+      padding: 17px 18px;
+      border-radius: 15px;
+      background: var(--warning);
+      border: 1px solid var(--warning-border);
+      color: #66551e;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      font-weight: 800;
+      padding: 12px 17px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--primary), var(--primary-2));
+      color: #ffffff;
+    }
+
+    .button.secondary {
+      color: var(--primary);
+      background: #ffffff;
+      border: 1px solid #cfd3ff;
+    }
+
+    .contact-box {
+      margin-top: 22px;
+      padding: 20px;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: #fbfcff;
+    }
+
+    .contact-box p {
+      margin: 6px 0;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 24px;
+    }
+
+    @media (max-width: 700px) {
+      .page {
+        width: min(100% - 18px, 980px);
+        padding-top: 22px;
+      }
+
+      .hero,
+      .content {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .toc ol {
+        columns: 1;
+      }
+
+      .actions {
+        display: grid;
+      }
+
+      .button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <main class="page">
+    <div class="brand">
+      <div class="logo">P</div>
+      <div>
+        <div class="brand-name">Pocketly</div>
+        <div class="brand-subtitle">Personal finance tracker</div>
+      </div>
+    </div>
+
+    <article class="card">
+      <header class="hero">
+        <div class="eyebrow">Privacy Policy</div>
+        <h1>Pocketly Privacy Policy</h1>
+        <p>
+          This Privacy Policy explains how IR TECH collects, uses, stores,
+          protects, and handles information when you use the Pocketly mobile application.
+        </p>
+
+        <div class="meta">
+          <span><strong>Effective date:</strong> November 6, 2026</span>
+          <span><strong>Publisher:</strong> IR TECH</span>
+          <span><strong>Country:</strong> Sri Lanka</span>
+        </div>
+      </header>
+
+      <div class="content">
+        <div class="summary">
+          <strong>Privacy at a glance</strong>
+          Pocketly is a personal finance record-keeping application. It does not sell
+          your personal data, does not share your data with advertisers or marketing
+          companies, and does not provide banking, payment processing, lending,
+          investment, or financial-advice services.
+        </div>
+
+        <nav class="toc" aria-label="Privacy policy contents">
+          <h2>Contents</h2>
+          <ol>
+            <li><a href="#scope">Scope</a></li>
+            <li><a href="#data-we-collect">Information we collect</a></li>
+            <li><a href="#how-we-use">How we use information</a></li>
+            <li><a href="#firebase">Firebase and service providers</a></li>
+            <li><a href="#sharing">How information is shared</a></li>
+            <li><a href="#local-security">Local security features</a></li>
+            <li><a href="#exports">CSV and PDF exports</a></li>
+            <li><a href="#retention">Data retention</a></li>
+            <li><a href="#deletion">Account and data deletion</a></li>
+            <li><a href="#security">Security</a></li>
+            <li><a href="#international">International processing</a></li>
+            <li><a href="#children">Age requirements</a></li>
+            <li><a href="#rights">Your choices and rights</a></li>
+            <li><a href="#changes">Changes to this policy</a></li>
+            <li><a href="#contact">Contact us</a></li>
+          </ol>
+        </nav>
+
+        <section id="scope">
+          <h2>1. Scope</h2>
+          <p>
+            This Privacy Policy applies to the Pocketly mobile application published by
+            IR TECH and to information processed through the app's related services.
+          </p>
+          <p>
+            Pocketly is currently intended for users in Sri Lanka. This policy applies
+            whenever you use Pocketly or contact IR TECH about Pocketly.
+          </p>
+        </section>
+
+        <section id="data-we-collect">
+          <h2>2. Information we collect</h2>
+
+          <p>
+            Pocketly collects information that is necessary to create and manage an
+            account and to provide personal finance tracking features.
+          </p>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Examples</th>
+                  <th>Why it is used</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Account information</td>
+                  <td>Name, email address, Firebase user ID</td>
+                  <td>Account creation, authentication, account management, and linking your data to your account</td>
+                </tr>
+                <tr>
+                  <td>Optional profile information</td>
+                  <td>Phone number, bio, selected emoji/avatar</td>
+                  <td>Profile personalization and account functionality</td>
+                </tr>
+                <tr>
+                  <td>Financial records you enter</td>
+                  <td>Income, expenses, amounts, categories, descriptions, dates, times, payment methods, recurring settings, and monthly budget</td>
+                  <td>To provide Pocketly's finance tracking, budgeting, history, statistics, reports, and related features</td>
+                </tr>
+                <tr>
+                  <td>App preferences</td>
+                  <td>Currency, theme, and related settings</td>
+                  <td>To remember your selected preferences and personalize the app experience</td>
+                </tr>
+                <tr>
+                  <td>Authentication and technical data</td>
+                  <td>Email authentication details and technical information processed by Firebase Authentication, such as IP address and user-agent information</td>
+                  <td>Authentication, security, fraud prevention, and operation of the authentication service</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>
+            Pocketly does not require a profile photo upload. Profile personalization uses
+            selectable emoji/avatar options.
+          </p>
+
+          <p>
+            Your account password is handled through Firebase Authentication. IR TECH does
+            not receive your password in plain text.
+          </p>
+        </section>
+
+        <section id="how-we-use">
+          <h2>3. How we use information</h2>
+
+          <p>IR TECH uses information processed through Pocketly to:</p>
+
+          <ul>
+            <li>create, authenticate, and manage your Pocketly account;</li>
+            <li>store and display the income, expense, budget, and transaction information you enter;</li>
+            <li>calculate summaries, statistics, reports, and financial-health information;</li>
+            <li>save your currency, theme, profile, and app preferences;</li>
+            <li>support password reset, account security, and email verification;</li>
+            <li>provide optional local PIN or biometric quick-access features;</li>
+            <li>respond to support, privacy, and account-deletion requests;</li>
+            <li>protect Pocketly, its users, and its services from misuse or security threats; and</li>
+            <li>comply with applicable legal obligations.</li>
+          </ul>
+
+          <div class="notice">
+            Pocketly is a personal record-keeping tool. It does not provide banking
+            services, payment processing, investment services, lending, or financial advice.
+          </div>
+        </section>
+
+        <section id="firebase">
+          <h2>4. Firebase and service providers</h2>
+
+          <p>
+            Pocketly uses Google Firebase services to provide core application functionality.
+            These services may process information on behalf of IR TECH.
+          </p>
+
+          <h3>Firebase Authentication</h3>
+          <p>
+            Firebase Authentication is used for account registration, login, email
+            verification, password reset, and account management.
+          </p>
+
+          <h3>Cloud Firestore</h3>
+          <p>
+            Cloud Firestore is used to store Pocketly account and finance-related data,
+            including user profile information, income records, expense records, and
+            account-associated settings such as monthly budget.
+          </p>
+
+          <p>
+            Google/Firebase may process technical information necessary to operate these
+            services. Their processing is governed by Google's and Firebase's applicable
+            terms and privacy practices.
+          </p>
+        </section>
+
+        <section id="sharing">
+          <h2>5. How information is shared</h2>
+
+          <p>
+            IR TECH does not sell Pocketly user data and does not share Pocketly user data
+            with advertisers or marketing companies.
+          </p>
+
+          <p>Information may be disclosed only in limited circumstances such as:</p>
+
+          <ul>
+            <li>
+              <strong>Service providers:</strong> Google/Firebase processes data as needed
+              to provide authentication, database, hosting/infrastructure, and related
+              application services.
+            </li>
+            <li>
+              <strong>User-directed actions:</strong> information is transferred when you
+              intentionally export or share a file through your device.
+            </li>
+            <li>
+              <strong>Legal and security reasons:</strong> information may be disclosed
+              when reasonably necessary to comply with applicable law, legal process,
+              enforce rights, investigate abuse, or protect users and services.
+            </li>
+          </ul>
+
+          <p>
+            Pocketly currently does not contain advertising and does not use user data for
+            targeted advertising.
+          </p>
+        </section>
+
+        <section id="local-security">
+          <h2>6. Local PIN and biometric security</h2>
+
+          <p>
+            Pocketly may offer optional PIN and biometric quick-access features on supported
+            devices.
+          </p>
+
+          <p>
+            Biometric verification is handled by your device's operating system and
+            biometric security framework. IR TECH does not receive or store your fingerprint,
+            face scan, or biometric template.
+          </p>
+
+          <p>
+            If you enable quick login, authentication-related information needed for that
+            feature may be stored locally using platform secure-storage mechanisms on your
+            device.
+          </p>
+        </section>
+
+        <section id="exports">
+          <h2>7. CSV and PDF exports</h2>
+
+          <p>
+            Pocketly allows you to export selected financial records to CSV or PDF. Export
+            and sharing are initiated by you.
+          </p>
+
+          <p>
+            When you choose to share an exported file, your device's operating system may
+            present third-party apps or services through the system share sheet. Information
+            sent to a third-party app at your direction is then handled according to that
+            third party's privacy practices.
+          </p>
+
+          <p>
+            Review the destination before sharing exported financial information.
+          </p>
+        </section>
+
+        <section id="retention">
+          <h2>8. Data retention</h2>
+
+          <p>
+            Pocketly account data is generally retained while your account remains active
+            and as needed to provide the app's functionality.
+          </p>
+
+          <p>
+            After IR TECH receives and verifies a valid account-deletion request, IR TECH
+            will aim to complete deletion of the account and associated Pocketly data within
+            <strong>30 days</strong>.
+          </p>
+
+          <p>
+            Certain limited information may be retained beyond this period only when
+            reasonably necessary to comply with legal obligations, resolve disputes,
+            prevent fraud or abuse, or protect the security and integrity of Pocketly.
+          </p>
+        </section>
+
+        <section id="deletion">
+          <h2>9. Account and data deletion</h2>
+
+          <p>
+            You may request permanent deletion of your Pocketly account and associated data
+            from within the Pocketly app or through the public account-deletion page.
+          </p>
+
+          <p>
+            You may be asked to verify ownership of the account before deletion is completed.
+            Do not send your password, PIN, bank details, or full transaction history when
+            requesting deletion.
+          </p>
+
+          <p>
+            A verified deletion request is intended to remove the Pocketly account and
+            account-associated data, including the Firebase Authentication account, user
+            profile, income records, expense records, monthly budget, and other Pocketly
+            data directly associated with that account, subject to the limited retention
+            circumstances described above.
+          </p>
+
+          <div class="actions">
+            <a
+              class="button"
+              href="https://joyful-florentine-28cac5.netlify.app"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Request Account Deletion
+            </a>
+
+            <a
+              class="button secondary"
+              href="mailto:memberofpfc20@gmail.com?subject=Pocketly%20Privacy%20Request"
+            >
+              Email Privacy Support
+            </a>
+          </div>
+        </section>
+
+        <section id="security">
+          <h2>10. Security</h2>
+
+          <p>
+            IR TECH takes reasonable technical and organizational measures to protect
+            Pocketly information against unauthorized access, loss, misuse, alteration,
+            and disclosure.
+          </p>
+
+          <p>
+            Pocketly uses Firebase services for core backend functionality. Firebase states
+            that its services use HTTPS for data in transit and that services including
+            Firebase Authentication and Cloud Firestore encrypt data at rest.
+          </p>
+
+          <p>
+            No method of electronic transmission or storage can be guaranteed to be
+            completely secure. Users should protect their account credentials, device access,
+            PIN, and email account.
+          </p>
+        </section>
+
+        <section id="international">
+          <h2>11. International data processing</h2>
+
+          <p>
+            Although Pocketly is intended for users in Sri Lanka, Google/Firebase services
+            may process or store information outside Sri Lanka.
+          </p>
+
+          <p>
+            Firebase Authentication is operated using infrastructure in the United States,
+            while other Firebase services may use Google infrastructure in different
+            locations depending on the service and configuration.
+          </p>
+
+          <p>
+            By using Pocketly, your information may therefore be processed in countries
+            other than Sri Lanka where service providers operate their infrastructure.
+          </p>
+        </section>
+
+        <section id="children">
+          <h2>12. Age requirements</h2>
+
+          <p>
+            Pocketly is intended for users aged <strong>13 years and older</strong>. It is
+            not intended for children under 13.
+          </p>
+
+          <p>
+            If IR TECH becomes aware that personal information belonging to a child under
+            13 has been provided through Pocketly contrary to this age requirement, IR TECH
+            will take reasonable steps to investigate and delete the information where
+            appropriate.
+          </p>
+        </section>
+
+        <section id="rights">
+          <h2>13. Your choices and rights</h2>
+
+          <p>
+            Depending on applicable law and the nature of your request, you may contact
+            IR TECH to:
+          </p>
+
+          <ul>
+            <li>ask questions about how Pocketly handles your information;</li>
+            <li>request correction of inaccurate profile information;</li>
+            <li>request access to information associated with your account;</li>
+            <li>request deletion of your Pocketly account and associated data;</li>
+            <li>stop using optional profile information, such as your phone number or bio; and</li>
+            <li>raise a privacy concern or complaint.</li>
+          </ul>
+
+          <p>
+            IR TECH may need to verify your identity or account ownership before acting on
+            a request involving account data.
+          </p>
+        </section>
+
+        <section id="changes">
+          <h2>14. Changes to this Privacy Policy</h2>
+
+          <p>
+            IR TECH may update this Privacy Policy when Pocketly's features, data practices,
+            legal requirements, or service providers change.
+          </p>
+
+          <p>
+            When this policy is updated, the effective date shown at the top of this page
+            will be revised. Material changes may also be communicated through Pocketly or
+            other reasonable means where appropriate.
+          </p>
+        </section>
+
+        <section id="contact">
+          <h2>15. Contact us</h2>
+
+          <p>
+            For privacy questions, data requests, support, or concerns about this policy,
+            contact IR TECH using the details below.
+          </p>
+
+          <div class="contact-box">
+            <p><strong>Developer / Publisher:</strong> IR TECH</p>
+            <p><strong>Country:</strong> Sri Lanka</p>
+            <p>
+              <strong>Email:</strong>
+              <a href="mailto:memberofpfc20@gmail.com">memberofpfc20@gmail.com</a>
+            </p>
+            <p>
+              <strong>Website:</strong>
+              <a
+                href="https://devishfak.netlify.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                https://devishfak.netlify.app/
+              </a>
+            </p>
+            <p>
+              <strong>Account deletion:</strong>
+              <a
+                href="https://joyful-florentine-28cac5.netlify.app"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                https://joyful-florentine-28cac5.netlify.app
+              </a>
+            </p>
+          </div>
+        </section>
+      </div>
+    </article>
+
+    <footer>
+      © 2026 IR TECH · Pocketly Privacy Policy
+    </footer>
+  </main>
+</body>
+</html>

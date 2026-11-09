@@ -5,6 +5,22 @@ plugins {
     id "com.google.gms.google-services"
 }
 
+def keystoreProperties = new Properties()
+def keystorePropertiesFile = rootProject.file("key.properties")
+def releaseBuildRequested = gradle.startParameter.taskNames.any {
+    it.toLowerCase().contains("release")
+}
+
+if (keystorePropertiesFile.exists()) {
+    keystorePropertiesFile.withInputStream { stream ->
+        keystoreProperties.load(stream)
+    }
+} else if (releaseBuildRequested) {
+    throw new GradleException(
+        "Release signing is not configured. Create android/key.properties before building a release."
+    )
+}
+
 android {
     namespace = "com.rumiishi.rumi_ishi_expense_tracker"
     compileSdk = flutter.compileSdkVersion
@@ -26,11 +42,28 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        release {
+            if (keystorePropertiesFile.exists()) {
+                def requiredKeys = ["keyAlias", "keyPassword", "storeFile", "storePassword"]
+                def missingKeys = requiredKeys.findAll { key -> !keystoreProperties[key] }
+                if (!missingKeys.isEmpty()) {
+                    throw new GradleException(
+                        "Missing release-signing values in android/key.properties: ${missingKeys.join(', ')}"
+                    )
+                }
+
+                keyAlias = keystoreProperties["keyAlias"]
+                keyPassword = keystoreProperties["keyPassword"]
+                storeFile = file(keystoreProperties["storeFile"])
+                storePassword = keystoreProperties["storePassword"]
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.debug
+            signingConfig = signingConfigs.release
         }
     }
 }

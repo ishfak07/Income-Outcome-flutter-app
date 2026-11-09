@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../providers/auth_provider.dart';
 import '../services/local_auth_service.dart';
 import '../utils/app_theme.dart';
@@ -18,6 +19,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  static final Uri _privacyPolicyUri =
+      Uri.parse('https://peppy-blancmange-63c6c9.netlify.app');
+
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -67,6 +71,19 @@ class _LoginScreenState extends State<LoginScreen> {
       Navigator.of(context).pushNamedAndRemoveUntil(
         AppConstants.homeRoute,
         (route) => false,
+      );
+    }
+  }
+
+  Future<void> _openPrivacyPolicy() async {
+    final opened = await launchUrl(
+      _privacyPolicyUri,
+      mode: LaunchMode.externalApplication,
+    );
+
+    if (!opened && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Unable to open the privacy policy.')),
       );
     }
   }
@@ -300,7 +317,28 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                   ).animate().fadeIn(duration: 300.ms, delay: 600.ms),
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 12),
+                  // Privacy policy link
+                  Center(
+                    child: TextButton(
+                      onPressed: _openPrivacyPolicy,
+                      style: TextButton.styleFrom(
+                        foregroundColor: AppTheme.primaryColor,
+                        textStyle: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                        ),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
+                        minimumSize: const Size(0, 40),
+                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      ),
+                      child: const Text('Privacy Policy'),
+                    ),
+                  ).animate().fadeIn(duration: 300.ms, delay: 650.ms),
+                  const SizedBox(height: 24),
                 ],
               ),
             ),
